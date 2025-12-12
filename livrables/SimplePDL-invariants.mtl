@@ -1,0 +1,36 @@
+[comment encoding = UTF-8 /]
+[module toLtl('http://simplepdl')]
+
+[template public processToLtlInvariants(aProcess : Process)]
+[comment @main/]
+[file (aProcess.name + '_invariants.ltl', false, 'UTF-8')]
+
+[let wds : OrderedSet(WorkDefinition) = aProcess.getWDs()]
+
+
+[for (wd : WorkDefinition | wds)]
+
+
+['[]'/] ([wd.name/]_ready + [wd.name/]_ongoing + [wd.name/]_finished = 1);
+
+
+['[]'/]  ([wd.name/]_ongoing => ['[]'/]  [wd.name/]_ongoing);
+
+
+['[]'/] ([wd.name/]_finished => ['[]'/]  [wd.name/]_finished);
+
+
+['[]'/]  ([wd.name/]_finished => [wd.name/]_ongoing);
+
+[/for]
+
+[/let]
+
+[/file]
+[/template]
+
+[query public getWDs(p: Process) : OrderedSet(WorkDefinition) = 
+    p.processElements->select(e | e.oclIsTypeOf(WorkDefinition))
+                     ->collect(e | e.oclAsType(WorkDefinition))
+                     ->asOrderedSet()
+/]

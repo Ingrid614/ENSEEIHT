@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<petriNet1:PetriNet
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:petriNet1="http://www.example.org/petriNet1"
+    name="MyPetrinet">
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="p1"
+      tokens="1"/>
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="p2"
+      tokens="2"/>
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="p3"/>
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="p4"/>
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="p5"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="t1"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="t2"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="t3"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="t4"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="t5"/>
+  <arcs weight="1"
+      source="//@petrinetElements.0"
+      target="//@petrinetElements.5"/>
+  <arcs weight="2"
+      source="//@petrinetElements.1"
+      target="//@petrinetElements.5"/>
+  <arcs weight="1"
+      source="//@petrinetElements.5"
+      target="//@petrinetElements.2"/>
+  <arcs weight="1"
+      source="//@petrinetElements.5"
+      target="//@petrinetElements.3"/>
+  <arcs weight="1"
+      source="//@petrinetElements.5"
+      target="//@petrinetElements.4"/>
+  <arcs weight="1"
+      source="//@petrinetElements.3"
+      target="//@petrinetElements.6"/>
+  <arcs weight="1"
+      source="//@petrinetElements.6"
+      target="//@petrinetElements.1"/>
+</petriNet1:PetriNet>

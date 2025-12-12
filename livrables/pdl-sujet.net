@@ -1,0 +1,35 @@
+
+net Developpement
+
+pl Conception_ready (1)
+pl Conception_ongoing (0)
+pl Conception_finished (0)
+pl Programmation_ready (1)
+pl Programmation_ongoing (0)
+pl Programmation_finished (0)
+pl RedactionDoc_ready (1)
+pl RedactionDoc_ongoing (0)
+pl RedactionDoc_finished (0)
+pl RedactionTests_ready (1)
+pl RedactionTests_ongoing (0)
+pl RedactionTests_finished (0)
+pl Ordinateurs (50)
+pl Ingenieurs (50)
+
+
+tr Conception_start  Conception_ready  Ingenieurs10  Ordinateurs10 -> Conception_ongoing RedactionDoc_ready RedactionTests_ready
+
+tr Conception_finish  Conception_ongoing -> Conception_finished RedactionDoc_ongoing Programmation_ready
+
+tr Programmation_start  Programmation_ready  Ordinateurs10  Ingenieurs10 -> Programmation_ongoing
+
+tr Programmation_finish  Programmation_ongoing -> Programmation_finished RedactionTests_ongoing
+
+tr RedactionDoc_start  RedactionDoc_ready  Ordinateurs10  Ingenieurs10 -> RedactionDoc_ongoing
+
+tr RedactionDoc_finish  RedactionDoc_ongoing -> RedactionDoc_finished
+
+tr RedactionTests_start  RedactionTests_ready  Ordinateurs10  Ingenieurs10 -> RedactionTests_ongoing
+
+tr RedactionTests_finish  RedactionTests_ongoing -> RedactionTests_finished
+

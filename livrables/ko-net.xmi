@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<petriNet1:PetriNet
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:petriNet1="http://www.example.org/petriNet1"
+    name="Mon Réseau de Pétri">
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="place 1 "/>
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="place 1"
+      tokens="1"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="Transition 1 "/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="Transition 1"/>
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="Place 2"/>
+  <arcs weight="1"
+      source="//@petrinetElements.0"
+      target="//@petrinetElements.2"/>
+  <arcs weight="1"
+      source="//@petrinetElements.1"
+      target="//@petrinetElements.3"/>
+  <arcs weight="1"
+      source="//@petrinetElements.0"
+      target="//@petrinetElements.4"/>
+</petriNet1:PetriNet>

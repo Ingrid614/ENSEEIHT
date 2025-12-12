@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<petriNet1:PetriNet
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:petriNet1="http://www.example.org/petriNet1"
+    name="Developpement">
+  <petrinetElements
+      xsi:type="petriNet1:Place"
+      name="Place1"
+      tokens="1"/>
+  <petrinetElements
+      xsi:type="petriNet1:Transition"
+      name="Transition1"/>
+  <arcs weight="-1"
+      source="//@petrinetElements.0"
+      target="//@petrinetElements.1"/>
+</petriNet1:PetriNet>

@@ -1,0 +1,108 @@
+-- @path SimplePDL=/fr.n7.simplePDL/SimplePDL.ecore
+-- @path PetriNet1=/fr.n7.petriNet1/model/petriNet1.ecore
+
+module toPetrinet;
+
+create OUT : petriNet1 from IN : simplepdl;
+
+
+
+
+helper context simplepdl!ProcessElement
+def: getProcess() : simplepdl!Process =
+  simplepdl!Process.allInstances()->any(p | p.processElements->includes(self));
+
+
+
+rule Process2PetriNet {
+    from p : simplepdl!Process
+    to net : petriNet1!PetriNet (
+        name <- p.name,
+        petrinetElements <- petriNet1!Node.allInstances(),
+        arcs <- petriNet1!Arc.allInstances()
+    )
+}
+
+rule WD2PetriElements {
+  from wd : simplepdl!WorkDefinition
+  to 
+    p_ready : petriNet1!Place (
+      name <- wd.name + '_ready',
+      tokens <- 1
+    ),
+    p_ongoing : petriNet1!Place (
+      name <- wd.name + '_ongoing',
+      tokens <- 0
+    ),
+    p_finished : petriNet1!Place (
+      name <- wd.name + '_finished',
+      tokens <- 0
+    ),
+
+    t_start : petriNet1!Transition (
+      name <- wd.name + '_start'
+    ),
+    t_finish : petriNet1!Transition (
+      name <- wd.name + '_finish'
+    ),
+
+    arc1 : petriNet1!Arc (
+      source <- p_ready,
+      target <- t_start,
+      weight <- 1
+    ),
+    arc2 : petriNet1!Arc (
+      source <- t_start,
+      target <- p_ongoing,
+      weight <- 1
+    ),
+    arc3 : petriNet1!Arc (
+      source <- p_ongoing,
+      target <- t_finish,
+      weight <- 1
+    ),
+    arc4 : petriNet1!Arc (
+      source <- t_finish,
+      target <- p_finished,
+      weight <- 1
+    )
+}
+
+
+rule WS2Arc {
+  from ws : simplepdl!WorkSequence
+  to arc : petriNet1!Arc (
+    source <-
+      if ws.linkType = #startToStart then
+        thisModule.resolveTemp(ws.predecessor, 't_start')
+      else
+        thisModule.resolveTemp(ws.predecessor, 't_finish')
+      endif,
+    target <-
+      if ws.linkType = #startToStart or ws.linkType = #finishToStart then
+        thisModule.resolveTemp(ws.successor, 'p_ready')
+      else
+        thisModule.resolveTemp(ws.successor, 'p_ongoing')
+      endif,
+    weight <- 1
+  )
+}
+
+
+rule Ressource2Place {
+  from r : simplepdl!Ressource
+  to p : petriNet1!Place (
+    name <- r.name,
+    tokens <- r.number 
+  )
+}
+
+
+rule RessourceRequirement2Arc {
+  from rr : simplepdl!RessourceRequirement
+  to arc : petriNet1!Arc (
+    source <- thisModule.resolveTemp(rr.ressource, 'p'),
+    target <- thisModule.resolveTemp(rr.activity, 't_start'),
+    weight <-rr.numberRequired 
+  )
+}

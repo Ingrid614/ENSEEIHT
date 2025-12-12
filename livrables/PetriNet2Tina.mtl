@@ -1,0 +1,34 @@
+[comment encoding = UTF-8 /]
+[module toTina('http://www.example.org/petriNet1')]
+
+[template public generate(p : PetriNet)]
+[comment @main /]
+[file (p.name.concat('.net'), false, 'UTF-8')]
+
+net [p.name/]
+
+[for (n : Node | p.petrinetElements)]
+  [if (n.oclIsTypeOf(Place))]
+    [let pl : Place = n.oclAsType(Place)]
+pl [pl.name/] ([pl.tokens/])
+    [/let]
+  [/if]
+[/for]
+
+[for (n : Node | p.petrinetElements)]
+  [if (n.oclIsTypeOf(Transition))]
+    [let t : Transition = n.oclAsType(Transition)]
+      [let inArcs : Sequence(Arc) = p.arcs->select(a | a.target = t and a.source.oclIsTypeOf(Place))->asSequence()]
+		[let outArcs : Sequence(Arc) = p.arcs->select(a | a.source = t and a.target.oclIsTypeOf(Place))->asSequence()]
+
+      [if (not inArcs->isEmpty() or not outArcs->isEmpty())]
+tr [t.name/] [for (a : Arc | inArcs) separator(' ')] [a.source.oclAsType(Place).name/][if a.weight > 1][a.weight/][/if][/for] -> [for (a : Arc | outArcs) separator(' ')][a.target.oclAsType(Place).name/][if a.weight > 1]*[a.weight/][/if][/for]
+      [/if]
+	[/let]
+	[/let]
+    [/let]
+  [/if]
+[/for]
+
+[/file]
+[/template]
